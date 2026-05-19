@@ -1,1 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Door Properties | Market Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Unbounded:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#051F40;--blue:#3C64B1;--pink:#E86A8D;
+  --cream:#FCCD97;--green:#7EE459;--bg:#eef1f8;
+  --white:#fff;--text:#051F40;--muted:#6b7a92;
+  --border:#dde3f0;--card:#fff;
+  --light-blue:#D2D9EB;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.55;}
 
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+.topbar{background:var(--white);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.topbar-logo svg{height:22px;width:auto;display:block;}
+.pill-tag{background:var(--pink);color:var(--white);font-family:'Unbounded',sans-serif;font-size:7.5px;font-weight:600;letter-spacing:.1em;padding:4px 11px;border-radius:999px;text-transform:uppercase;}
+
+.hero{background:var(--navy);padding:22px 14px 20px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(232,106,141,.22) 0%,transparent 70%);top:-100px;right:-60px;pointer-events:none;}
+.hero-eye{font-family:'Unbounded',sans-serif;font-size:7px;font-weight:600;color:var(--pink);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:7px;}
+.hero-eye::before{content:'';width:5px;height:5px;background:var(--pink);border-radius:50%;}
+.hero-name{font-family:'DM Serif Display',serif;font-size:30px;color:var(--white);line-height:1.05;margin-bottom:3px;}
+.hero-sub{font-size:13.5px;color:rgba(255,255,255,.45);font-weight:300;margin-bottom:3px;}
+.hero-sub span{color:var(--pink);}
+.hero-tag{font-size:10.5px;color:rgba(255,255,255,.28);font-style:italic;font-weight:300;margin-bottom:16px;}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.06);}
+.hs{background:rgba(255,255,255,.05);padding:12px 11px;}
+.hs.ft{background:rgba(232,106,141,.18);}
+.hs-l{font-family:'Unbounded',sans-serif;font-size:6px;font-weight:600;color:rgba(255,255,255,.32);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
+.hs-v{font-family:'DM Serif Display',serif;font-size:24px;color:var(--white);line-height:1;}
+.hs.ft .hs-v{color:var(--pink);}
+.hs-n{font-size:9px;color:rgba(255,255,255,.22);margin-top:2px;font-weight:300;}
+
+.sec{padding:16px 14px;}
+.sec+.sec{padding-top:0;}
+.sec-eye{font-family:'Unbounded',sans-serif;font-size:7px;font-weight:600;color:var(--pink);letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px;}
+.sec-title{font-family:'DM Serif Display',serif;font-size:20px;color:var(--navy);margin-bottom:12px;line-height:1.15;}
+
+.dc{background:var(--card);border-radius:10px;border:1px solid var(--border);overflow:hidden;margin-bottom:10px;}
+.p-top{padding:12px 12px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--border);}
+.av{width:40px;height:40px;border-radius:50%;background:#fce8ee;border:2px solid var(--pink);display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:var(--pink);flex-shrink:0;}
+.av.blue{border-color:var(--blue);background:#e8eef8;color:var(--blue);}
+.av.navy{border-color:var(--navy);background:#e0e5ee;color:var(--navy);}
+.p-name{font-family:'DM Serif Display',serif;font-size:17px;color:var(--navy);line-height:1.05;margin-bottom:2px;}
+.p-role{font-family:'Unbounded',sans-serif;font-size:6px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--pink);margin-bottom:4px;}
+.p-meta{font-size:10.5px;color:var(--muted);font-weight:300;line-height:1.5;}
+.p-meta b{color:var(--text);font-weight:600;}
+.p-grid{display:grid;grid-template-columns:1fr 1fr;}
+.pg{padding:9px 12px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+.pg:nth-child(even){border-right:none;}
+.pg:nth-last-child(-n+2){border-bottom:none;}
+.pg-l{font-size:9px;color:var(--muted);font-weight:300;margin-bottom:2px;}
+.pg-v{font-size:15px;font-weight:600;color:var(--navy);}
+.rtags{padding:9px 12px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid var(--border);}
+.rt{background:var(--light-blue);border-radius:999px;font-size:9.5px;padding:3px 9px;color:var(--navy);}
+.rt b{font-weight:600;}
+
+.sup{background:var(--card);border-radius:9px;border:1px solid var(--border);padding:11px 12px;display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.sup-name{font-size:14.5px;font-weight:600;color:var(--navy);}
+.sup-role{font-size:10.5px;color:var(--muted);font-weight:300;}
+.sup-note{font-size:10px;color:var(--muted);font-style:italic;margin-top:2px;line-height:1.5;}
+
+.gg{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px;}
+.gc{background:var(--card);border-radius:9px;padding:11px;border:1px solid var(--border);}
+.gc.acc{background:var(--pink);border-color:var(--pink);}
+.gc.soft{background:#fce8ee;border-color:#f4a8c0;}
+.gc.bl{background:var(--blue);border-color:var(--blue);}
+.gc-l{font-family:'Unbounded',sans-serif;font-size:6.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.gc.acc .gc-l,.gc.bl .gc-l{color:rgba(255,255,255,.7);}
+.gc.soft .gc-l{color:#8a1a3a;}
+.gc-v{font-family:'DM Serif Display',serif;font-size:20px;color:var(--navy);line-height:1;margin-bottom:2px;}
+.gc.acc .gc-v,.gc.bl .gc-v{color:var(--white);}
+.gc.soft .gc-v{color:#6e0f2b;}
+.gc-s{font-size:10px;color:var(--muted);font-weight:300;line-height:1.35;}
+.gc.acc .gc-s,.gc.bl .gc-s{color:rgba(255,255,255,.65);}
+.gc.soft .gc-s{color:#8a1a3a;}
+.delta{display:inline-block;font-size:9px;font-weight:600;padding:2px 6px;border-radius:999px;margin-top:3px;}
+.dg{background:rgba(126,228,89,.18);color:#2e7a14;}
+.dp{background:rgba(255,255,255,.25);color:var(--white);}
+.gc.soft .dp{background:rgba(232,106,141,.15);color:#8a1a3a;}
+.da{background:rgba(5,31,64,.08);color:var(--navy);}
+
+.tw{background:var(--card);border-radius:10px;border:1px solid var(--border);overflow:hidden;margin-bottom:10px;display:block;position:relative;}
+.ts{display:block;width:100%;overflow-x:scroll;-webkit-overflow-scrolling:touch;overflow-y:visible;}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px;table-layout:auto;}
+th{background:var(--light-blue);padding:8px 11px;text-align:left;font-family:'Unbounded',sans-serif;font-size:6.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:10px 11px;border-bottom:1px solid #e8ecf5;color:var(--text);white-space:nowrap;}
+tr:last-child td{border-bottom:none;}
+tr.yr td{background:#fce8ee;color:#6e0f2b;font-weight:500;}
+.yb{background:var(--pink);color:var(--white);font-family:'Unbounded',sans-serif;font-size:6px;font-weight:700;letter-spacing:.08em;padding:2px 6px;border-radius:999px;text-transform:uppercase;margin-left:5px;vertical-align:middle;}
+.tb{font-size:9px;font-weight:600;padding:2px 7px;border-radius:999px;}
+.tf{background:var(--light-blue);color:var(--navy);}
+.ti{background:#faeeda;color:#7a4a00;}
+.scroll-hint{font-size:9px;color:var(--muted);font-weight:300;text-align:center;padding:5px 10px 4px;font-style:italic;background:var(--bg);border-bottom:1px solid var(--border);}
+
+.vs{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+.vc{background:var(--card);border-radius:9px;border:1px solid var(--border);overflow:hidden;}
+.vh{padding:10px 12px;border-bottom:1px solid var(--border);}
+.vh-t{font-family:'Unbounded',sans-serif;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.vh-t.pk{color:var(--pink);}
+.vh-t.bl{color:var(--blue);}
+.vr{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:.5px solid #e8ecf5;}
+.vr:last-child{border-bottom:none;}
+.vm{color:var(--muted);font-weight:300;font-size:13.5px;}
+.vv{font-weight:600;color:var(--navy);font-size:14px;}
+
+.ic{background:var(--blue);border-radius:10px;overflow:hidden;margin-bottom:10px;}
+.ic-head{padding:10px 12px 9px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;gap:8px;}
+.ic-badge{background:var(--pink);color:var(--white);font-family:'Unbounded',sans-serif;font-size:6.5px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:999px;text-transform:uppercase;white-space:nowrap;}
+.ic-sub{font-size:10px;color:rgba(255,255,255,.45);font-weight:300;}
+.ic-intro{font-size:14px;color:rgba(255,255,255,.85);font-weight:300;line-height:1.6;padding:10px 12px 0;}
+.ic-pillars{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;}
+.pl{border-radius:8px;padding:10px 12px;border-left:3px solid transparent;}
+.pl.ua{background:rgba(255,255,255,.12);border-left-color:var(--pink);}
+.pl.sb{background:rgba(255,255,255,.08);border-left-color:var(--cream);}
+.pl.lf{background:rgba(126,228,89,.15);border-left-color:var(--green);}
+.pl-lbl{font-family:'Unbounded',sans-serif;font-size:6.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;display:inline-flex;align-items:center;gap:5px;cursor:pointer;position:relative;}
+.pl.ua .pl-lbl{color:var(--pink);}
+.pl.sb .pl-lbl{color:var(--cream);}
+.pl.lf .pl-lbl{color:var(--green);}
+.pl-lbl .info-dot{width:13px;height:13px;border-radius:50%;border:1.5px solid currentColor;display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;flex-shrink:0;opacity:.7;}
+.tooltip-overlay{display:none;position:fixed;inset:0;background:rgba(5,31,64,.55);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.tooltip-overlay.active{display:flex;}
+.tooltip-box{background:var(--white);border-radius:14px;padding:24px 20px;max-width:320px;width:100%;position:relative;box-shadow:0 20px 60px rgba(5,31,64,.3);}
+.tooltip-close{position:absolute;top:14px;right:16px;font-size:18px;color:var(--muted);cursor:pointer;line-height:1;background:none;border:none;padding:0;}
+.tooltip-close:hover{color:var(--navy);}
+.tooltip-label{font-family:'Unbounded',sans-serif;font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
+.tooltip-label.ua{color:var(--pink);}
+.tooltip-label.sb{color:var(--blue);}
+.tooltip-label.lf{color:#2e7a14;}
+.tooltip-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--navy);margin-bottom:10px;line-height:1.2;}
+.tooltip-body{font-size:14.5px;color:var(--muted);font-weight:300;line-height:1.65;}
+.pl-txt{font-size:13.5px;color:rgba(255,255,255,.82);font-weight:300;line-height:1.58;}
+
+.strengths-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+.strength-card{background:var(--card);border-radius:10px;border:1px solid var(--border);overflow:hidden;}
+.strength-card-inner{padding:13px 12px;}
+.strength-icon{font-size:18px;margin-bottom:7px;display:block;}
+.strength-title{font-family:'DM Serif Display',serif;font-size:16px;color:var(--navy);margin-bottom:5px;line-height:1.2;}
+.strength-body{font-size:13.5px;color:var(--muted);font-weight:300;line-height:1.6;}
+.strength-card.featured{background:var(--pink);border-color:var(--pink);}
+.strength-card.featured .strength-title{color:var(--white);}
+.strength-card.featured .strength-body{color:rgba(255,255,255,.82);}
+.strength-tag{display:inline-block;margin-top:7px;font-family:'Unbounded',sans-serif;font-size:6.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(5,31,64,.07);color:var(--muted);}
+.strength-card.featured .strength-tag{background:rgba(5,31,64,.07);color:var(--muted);}
+.strength-card.featured-blue{background:var(--blue);border-color:var(--blue);}
+.strength-card.featured-blue .strength-title{color:var(--white);}
+.strength-card.featured-blue .strength-body{color:rgba(255,255,255,.82);}
+.strength-tag-grey{display:inline-block;margin-top:7px;font-family:'Unbounded',sans-serif;font-size:6.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(5,31,64,.07);color:var(--muted);}
+.strength-card.featured-blue .strength-tag-grey{background:rgba(255,255,255,.15);color:rgba(255,255,255,.6);}
+.team-chips{display:flex;flex-direction:column;gap:5px;margin-top:8px;}
+.tw-chip{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:3px 10px;font-size:10.5px;color:var(--white);font-weight:300;display:inline-block;width:fit-content;}
+.tw-chip b{font-weight:600;}
+
+.rec{background:var(--card);border-radius:10px;border:1px solid var(--border);overflow:hidden;margin-bottom:10px;}
+.rec-head{background:var(--blue);padding:12px 14px;display:flex;align-items:center;gap:10px;}
+.rec-badge{font-family:'Unbounded',sans-serif;font-size:6.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--white);padding:3px 10px;border:1px solid rgba(255,255,255,.35);border-radius:999px;white-space:nowrap;}
+.rec-head-title{font-size:13px;color:rgba(255,255,255,.6);font-weight:300;}
+.rec-intro{font-size:14px;color:var(--muted);font-weight:300;line-height:1.6;padding:12px 14px 0;}
+.rec-items{padding:10px 14px 14px;display:flex;flex-direction:column;gap:8px;}
+.ri{border-radius:8px;padding:11px 12px;border:1px solid var(--border);background:#f4f7fc;}
+.ri-top{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.ri-num{width:20px;height:20px;border-radius:50%;background:var(--pink);color:var(--white);font-family:'Unbounded',sans-serif;font-size:7px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ri-title{font-family:'DM Serif Display',serif;font-size:16px;color:var(--navy);line-height:1.1;}
+.ri-body{font-size:13.5px;color:var(--muted);font-weight:300;line-height:1.58;}
+.ri-tag{display:inline-block;margin-top:6px;font-family:'Unbounded',sans-serif;font-size:6.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:999px;}
+.ri-tag.brand{background:#fce8ee;color:#8a1a3a;}
+.ri-tag.dom{background:var(--light-blue);color:var(--navy);}
+.ri-tag.price{background:rgba(126,228,89,.15);color:#2e7a14;}
+
+.div{height:1px;background:var(--border);margin:0 14px;}
+
+.opp{background:var(--navy);border-radius:14px;overflow:hidden;margin-bottom:24px;}
+.opp-stripe{height:4px;background:linear-gradient(90deg,var(--pink) 0%,var(--blue) 50%,var(--green) 100%);}
+.opp-in{padding:24px 16px;}
+.opp-eye{font-family:'Unbounded',sans-serif;font-size:7.5px;font-weight:600;color:var(--pink);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;}
+.opp-h{font-family:'DM Serif Display',serif;font-size:26px;color:var(--white);line-height:1.15;margin-bottom:12px;}
+.opp-b{font-size:14.5px;color:rgba(255,255,255,.65);line-height:1.75;font-weight:300;margin-bottom:22px;}
+.ctab{background:var(--pink);color:var(--white);text-decoration:none;font-size:15px;font-weight:600;padding:13px 22px;border-radius:999px;text-align:center;display:block;margin-bottom:10px;transition:opacity .2s;}
+.ctab:hover{opacity:.88;}
+.ctag{color:rgba(255,255,255,.45);text-decoration:none;font-size:14px;text-align:center;display:block;}
+.ctag:hover{color:rgba(255,255,255,.8);}
+
+footer{background:var(--white);padding:20px 16px;border-top:3px solid var(--pink);}
+.footer-inner{display:flex;flex-direction:column;gap:16px;}
+.footer-logo svg{height:28px;width:auto;display:block;}
+.footer-tagline{font-size:10px;color:var(--muted);font-weight:300;font-family:'Unbounded',sans-serif;letter-spacing:.08em;text-transform:uppercase;margin-top:4px;}
+.footer-divider{height:1px;background:var(--border);}
+.footer-contact{display:flex;flex-direction:column;gap:4px;}
+.footer-name{font-family:'DM Serif Display',serif;font-size:16px;color:var(--navy);}
+.footer-title{font-family:'Unbounded',sans-serif;font-size:6.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--pink);margin-bottom:5px;}
+.footer-links{display:flex;flex-direction:column;gap:4px;}
+.footer-link{font-size:13.5px;color:var(--muted);text-decoration:none;font-weight:300;display:flex;align-items:center;gap:6px;}
+.footer-link:hover{color:var(--pink);}
+.footer-link-icon{width:14px;height:14px;background:var(--pink);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:7px;color:var(--white);}
+
+@media(min-width:768px){
+  .hero{padding:56px 48px 48px;}
+  .hero-name{font-size:46px;}
+  .hero-stats{grid-template-columns:repeat(4,1fr);}
+  .hs{padding:22px;}
+  .hs-v{font-size:28px;}
+  .sec{padding:40px 48px;}
+  .sec+.sec{padding-top:0;}
+  .sec-title{font-size:28px;}
+  .topbar{padding:13px 48px;}
+  .gg{grid-template-columns:repeat(4,1fr);gap:14px;}
+  .vs{flex-direction:row;}
+  .vc{flex:1;}
+  .strengths-grid{flex-direction:row;}
+  .strength-card{flex:1;}
+  .opp-in{padding:44px 48px;}
+  .opp-h{font-size:32px;}
+  .ctab{display:inline-block;margin-bottom:0;}
+  .ctag{display:inline-block;margin-left:20px;}
+  .div{margin:0 48px;}
+  footer{padding:28px 48px;}
+  .footer-inner{flex-direction:row;align-items:flex-start;justify-content:space-between;}
+  .footer-divider{display:none;}
+  table{min-width:auto;}
+  .rec-items{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+}
+@media print{.reveal{opacity:1;transform:none;}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <svg width="514" height="118" viewBox="0 0 514 118" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M512.785 30.0918C513.159 30.0918 513.533 30.0918 514 30.0918C513.159 32.1477 512.411 34.1102 511.57 36.0727C503.346 56.0714 495.216 76.1635 486.899 96.1622C484.095 102.891 479.796 108.778 473.629 112.984C469.423 115.881 464.751 117.376 459.704 117.75C456.153 117.936 452.695 117.843 449.238 117.002C449.144 117.002 448.957 116.908 448.771 116.815C448.771 111.582 448.771 106.348 448.771 100.928C449.518 101.022 450.266 101.209 451.013 101.302C454.658 101.676 458.303 101.582 461.76 100.368C465.779 98.8723 467.835 95.6015 469.33 91.77C469.517 91.3962 469.236 90.8354 469.05 90.3682C462.695 75.4159 456.434 60.4636 450.079 45.4179C448.116 40.7453 446.154 36.0727 444.191 31.4001C444.004 31.0263 443.911 30.6525 443.724 30.1852C444.191 30.1852 444.472 30.0918 444.846 30.0918C450.733 30.0918 456.62 30.0918 462.508 30.0918C463.442 30.0918 463.723 30.4656 464.003 31.2132C469.05 43.9226 474.189 56.6321 479.329 69.2481C479.423 69.5284 479.516 69.7153 479.703 70.1826C479.89 69.6219 480.077 69.2481 480.264 68.8743C484.936 56.3517 489.515 43.7357 494.188 31.2132C494.468 30.3721 494.842 30.0918 495.777 30.0918C501.384 30.0918 507.084 30.0918 512.785 30.0918Z" fill="#3C64B1"/><path d="M445.033 54.2958C445.033 66.8183 445.033 79.2474 445.033 91.77C445.033 91.9569 445.033 92.1438 445.033 92.5176C438.771 92.5176 432.603 92.5176 426.249 92.5176C426.249 92.0503 426.155 91.5831 426.155 91.0223C426.155 79.995 426.249 68.8743 426.062 57.847C426.062 55.5107 425.688 52.9875 424.94 50.7446C423.352 46.1655 419.52 44.0161 414.661 44.0161C408.867 44.0161 405.222 48.128 404.381 52.9875C404.007 55.1369 403.727 57.3797 403.727 59.6225C403.633 70.0891 403.727 80.6492 403.727 91.1158C403.727 91.5831 403.727 91.9569 403.727 92.5176C403.26 92.5176 402.886 92.611 402.512 92.611C397.092 92.611 391.578 92.611 386.158 92.611C385.223 92.611 384.85 92.4241 384.85 91.3961C384.85 71.3975 384.85 51.4923 384.85 31.4936C384.85 30.4656 385.223 30.0918 386.251 30.1852C391.672 30.1852 397.092 30.1852 402.512 30.1852C403.54 30.1852 403.82 30.5591 403.727 31.4936C403.633 34.1102 403.54 36.8203 403.54 39.437C403.54 39.8108 403.54 40.1846 403.54 40.5584C403.633 40.5584 403.727 40.5584 403.82 40.6518C404.194 39.9042 404.474 39.1566 404.942 38.5025C408.493 32.4281 413.913 29.3442 420.829 29.0638C431.015 28.5031 439.519 34.1102 443.164 43.6423C444.565 46.9131 445.033 50.5577 445.033 54.2958Z" fill="#3C64B1"/><path d="M378.775 58.8758C379.243 65.5109 377.934 71.6787 374.757 77.4727C372.421 81.5846 369.337 85.1358 365.412 87.8459C360.552 91.3036 355.225 93.3595 349.431 94.1071C347.936 94.294 346.441 94.294 344.572 94.3875C334.573 94.2006 325.695 90.7429 318.686 82.8929C314.387 78.0334 311.677 72.3329 310.929 65.8847C309.714 55.9788 312.051 47.0074 318.966 39.4379C323.919 33.9242 330.087 30.373 337.376 28.9712C342.983 27.8498 348.684 27.8498 354.197 29.345C362.421 31.5879 369.056 36.2605 373.729 43.4563C376.719 48.1289 378.401 53.2687 378.775 58.8758ZM357.655 70.7442C360.552 64.5764 360.646 58.3151 357.655 52.1473C356.534 49.811 354.852 47.7551 352.515 46.3533C349.058 44.2973 345.32 43.8301 341.395 44.5777C339.058 45.045 336.909 46.0729 335.133 47.7551C331.395 51.3997 329.807 55.8853 329.713 61.5859C329.807 62.2401 329.807 63.455 329.993 64.6698C330.928 71.2115 335.414 77.5662 343.077 78.3138C348.964 79.0614 355.132 76.0709 357.655 70.7442Z" fill="#3C64B1"/><path d="M305.322 54.4825C305.416 66.8181 305.322 79.2472 305.322 91.5828C305.322 91.8632 305.322 92.1435 305.322 92.4239C299.061 92.4239 292.893 92.4239 286.538 92.4239C286.538 91.9566 286.538 91.4894 286.538 91.0221C286.538 79.9013 286.538 68.7806 286.538 57.5664C286.538 54.8563 286.258 52.1462 285.137 49.623C283.361 45.698 280.371 43.829 276.165 43.829C271.96 43.829 268.783 45.698 266.914 49.4361C265.605 52.1462 265.231 55.0432 265.231 58.0336C265.231 68.9675 265.231 79.8079 265.231 90.7418C265.231 91.209 265.231 91.6763 265.231 92.237C258.97 92.237 252.709 92.237 246.354 92.237C246.354 91.7697 246.354 91.3024 246.354 90.9286C246.354 79.621 246.354 68.2199 246.354 56.9122C246.354 53.7348 245.887 50.7444 244.018 48.0343C241.775 44.7635 238.598 43.7355 234.953 43.829C228.598 43.9224 225.141 48.5016 224.393 54.389C224.206 55.7908 224.113 57.1926 224.113 58.5944C224.113 69.3413 224.113 80.0883 224.113 90.8352C224.113 91.3025 224.113 91.7697 224.113 92.4239C217.758 92.4239 211.59 92.4239 205.329 92.4239C205.329 71.6776 205.329 50.9313 205.329 30.0916C211.497 30.0916 217.758 30.0916 224.019 30.0916C224.019 33.6427 224.019 37.1939 224.019 40.8385C227.851 32.5213 234.299 28.4094 243.457 28.8767C252.429 29.3439 258.783 33.9231 262.708 41.773C263.83 39.8105 264.671 37.9415 265.886 36.1659C268.783 32.1475 272.894 29.9981 277.754 29.157C282.146 28.4094 286.445 28.6898 290.65 30.185C295.043 31.7737 298.5 34.6707 301.023 38.5956C304.294 43.5486 305.322 48.8753 305.322 54.4825Z" fill="#3C64B1"/><path d="M188.227 0C195.142 0 199.815 5.32675 199.628 11.6815C199.722 18.0362 194.956 23.0826 188.134 22.9891C181.498 22.8957 176.732 18.1296 176.732 11.588C176.732 5.04639 181.592 0 188.227 0Z" fill="#3C64B1"/><path d="M197.572 30.0918C197.572 50.8381 197.572 71.5844 197.572 92.4241C191.311 92.4241 185.05 92.4241 178.788 92.4241C178.788 71.5844 178.788 50.8381 178.788 30.0918C185.05 30.0918 191.311 30.0918 197.572 30.0918Z" fill="#3C64B1"/><path d="M173.181 29.9975C173.181 34.9504 173.181 39.8099 173.181 44.7629C168.883 44.7629 164.584 44.7629 160.192 44.7629C160.192 45.1367 160.098 45.3236 160.098 45.6039C160.098 53.4539 160.098 61.3038 160.192 69.0603C160.192 73.6395 163.089 76.5365 167.761 76.6299C169.35 76.6299 170.939 76.5365 172.808 76.443C172.808 81.4894 172.808 86.4423 172.808 91.3953C172.808 91.6756 172.434 92.1429 172.153 92.1429C166.546 93.0774 160.939 93.6382 155.426 91.6757C149.258 89.5263 145.052 85.4144 142.903 79.1531C141.782 75.7889 141.501 72.3312 141.501 68.78C141.501 61.2104 141.501 53.6408 141.501 46.1646C141.501 45.6974 141.501 45.3236 141.501 44.6694C138.044 44.6694 134.586 44.6694 131.128 44.6694C131.128 39.623 131.128 34.857 131.128 29.904C134.586 29.904 137.95 29.904 141.501 29.904C141.501 24.9511 141.501 20.0916 141.501 15.1387C147.763 15.1387 153.93 15.1387 160.098 15.1387C160.098 19.9982 160.098 24.8576 160.098 29.8106C164.49 29.9975 168.789 29.9975 173.181 29.9975Z" fill="#3C64B1"/><path d="M128.418 54.295C128.511 66.7241 128.418 79.1532 128.418 91.6757C128.418 91.9561 128.418 92.143 128.324 92.5168C122.157 92.5168 115.895 92.5168 109.634 92.5168C109.634 91.9561 109.541 91.4888 109.541 90.9281C109.541 79.9008 109.541 68.967 109.541 58.0331C109.541 55.6034 109.447 53.0801 108.513 50.7438C106.644 46.2582 103.092 44.1088 98.233 44.1088C92.439 44.1088 88.8878 48.0338 87.9533 52.8933C87.486 55.0426 87.2991 57.192 87.2991 59.4349C87.2057 70.0884 87.2991 80.6484 87.2991 91.3019C87.2991 91.7692 87.2991 92.143 87.2991 92.6103C86.8319 92.6103 86.5515 92.7037 86.2712 92.7037C80.7575 92.7037 75.2439 92.7037 69.6368 92.7037C68.7022 92.7037 68.4219 92.4233 68.4219 91.4888C68.4219 71.4901 68.4219 51.4915 68.4219 31.4928C68.4219 30.4648 68.7957 30.1845 69.7302 30.1845C75.1504 30.1845 80.5706 30.1845 85.9908 30.1845C87.1122 30.1845 87.2991 30.5583 87.2991 31.5862C87.2057 34.2029 87.1122 36.8196 87.1122 39.4362C87.1122 39.81 87.1122 40.1838 87.1122 40.5576C87.2057 40.5576 87.2991 40.5576 87.3926 40.5576C87.7664 39.81 88.1402 39.0624 88.514 38.3148C92.9062 31.0255 100.195 27.8482 109.167 29.1565C118.886 30.6517 125.895 37.4737 127.764 47.1927C128.138 49.529 128.324 51.9587 128.418 54.295Z" fill="#3C64B1"/><path d="M65.338 77.9381C65.2446 79.0595 65.1511 80.181 65.0577 81.2089C64.8708 84.1994 64.7773 87.1898 64.4969 90.1803C64.4969 90.5541 64.1231 91.2083 63.8428 91.3017C60.6654 92.3297 57.3946 93.2642 53.9369 92.8904C49.0774 92.4231 45.6197 89.9 43.6572 85.5077C42.9096 83.919 42.4423 82.2369 41.7882 80.4613C41.5078 80.9286 41.3209 81.1155 41.134 81.3959C38.8912 86.6292 34.8727 89.9 29.6394 91.6755C22.9109 94.0118 16.0889 94.0118 9.45385 91.3017C1.51045 88.0309 -0.919296 80.7417 0.295577 73.5459C1.23009 68.0323 4.59436 64.2007 9.26695 61.3972C13.0985 59.0609 17.3973 57.6591 21.7895 57.0984C26.7424 56.5377 31.6954 56.1639 36.6483 55.6966C37.209 55.6032 37.8632 55.6032 38.4239 55.5097C38.7043 55.4162 39.0781 55.1359 39.0781 54.8556C39.1715 52.052 38.7977 49.3419 37.209 46.9122C34.9662 43.4544 29.4525 42.6134 25.9948 44.0151C22.5371 45.4169 20.855 48.0336 20.4812 51.6782C20.3877 52.2389 20.3877 52.6127 19.6401 52.6127C13.9395 52.5192 8.14553 52.4258 2.44497 52.4258C2.35152 52.4258 2.25806 52.3323 2.07116 52.3323C1.88426 49.9961 2.44497 47.7532 3.19258 45.6038C5.62233 38.7818 10.3884 34.0158 16.8365 31.0254C22.1633 28.5956 27.7704 28.0349 33.6579 28.5021C39.1715 28.9694 44.3114 30.5581 48.7971 34.0158C54.778 38.6884 57.4881 45.0431 57.675 52.4258C57.8619 58.0329 57.675 63.7335 57.7684 69.3406C57.7684 70.9293 57.8619 72.6114 58.3291 74.2001C59.4506 78.2185 61.2261 78.4054 63.8428 77.9381C64.4035 77.9381 64.7773 77.9381 65.338 77.9381ZM36.368 77.0036C38.9846 73.6393 39.5453 69.8078 39.1715 65.6025C38.5174 65.6025 37.9566 65.5091 37.3959 65.6025C34.4989 65.8829 31.5085 66.1632 28.6115 66.537C25.7145 66.9108 23.0044 67.8453 20.855 69.9947C18.0514 72.8917 18.5187 78.3119 21.9764 80.2744C23.2847 81.022 24.8734 81.3024 26.3686 81.3959C30.4805 81.6762 33.7513 80.181 36.368 77.0036Z" fill="#3C64B1"/></svg>
+  </div>
+  <span class="pill-tag">Gungahlin · ACT · 2025–2026</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eye">Market Intelligence Report</div>
+  <div class="hero-name">New Door Properties</div>
+  <div class="hero-sub">Independent · Gungahlin ACT · <span>Taylor · Moncrieff · Bonner · Googong</span></div>
+  <div class="hero-tag">"Agency of the Year Throsby 2022 · Agency of the Year Moncrieff 2021–2022 · Agency of the Year Bonner 2022–2023"</div>
+  <div class="hero-stats">
+    <div class="hs ft">
+      <div class="hs-l">Total office GCI</div>
+      <div class="hs-v">$9.3M</div>
+      <div class="hs-n">3 active sales agents</div>
+    </div>
+    <div class="hs">
+      <div class="hs-l">Median DOM</div>
+      <div class="hs-v">56</div>
+      <div class="hs-n">Days on market</div>
+    </div>
+    <div class="hs">
+      <div class="hs-l">Properties sold</div>
+      <div class="hs-v">145</div>
+      <div class="hs-n">Sales in 12 months</div>
+    </div>
+    <div class="hs">
+      <div class="hs-l">Agency reviews</div>
+      <div class="hs-v">5.0</div>
+      <div class="hs-n">182 verified · REA</div>
+    </div>
+  </div>
+</div>
+
+<!-- MOVEMENT 1: MIRROR -->
+<div class="sec reveal">
+  <div class="sec-eye">Movement 1 · Mirror</div>
+  <div class="sec-title">Yash Sethi, Abhi Parashar &amp; Gurjant Singh</div>
+
+  <div class="dc">
+    <div class="p-top">
+      <div class="av">YS</div>
+      <div>
+        <div class="p-name">Yash Sethi</div>
+        <div class="p-role">Founder &amp; Principal · Licensed Agent ACT/NSW</div>
+        <div class="p-meta"><b>REA 2025 Top Agent</b> · <b>86 reviews</b> at <b>5.0 ★</b><br>New Door Properties · Gungahlin ACT 2912</div>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="pg"><div class="pg-l">Properties sold (lead)</div><div class="pg-v">81</div></div>
+      <div class="pg"><div class="pg-l">Median sold price</div><div class="pg-v">$811k</div></div>
+      <div class="pg"><div class="pg-l">Median DOM</div><div class="pg-v">56 days</div></div>
+      <div class="pg"><div class="pg-l">Agent GCI</div><div class="pg-v">$3.98M</div></div>
+    </div>
+    <div class="rtags">
+      <span class="rt">REA 2025 <b>Top Agent</b></span>
+      <span class="rt">Professional</span>
+      <span class="rt">Great communicator</span>
+      <span class="rt">Trustworthy</span>
+      <span class="rt">Taylor · Moncrieff · Googong</span>
+    </div>
+  </div>
+
+  <div class="sup">
+    <div class="av blue">AP</div>
+    <div>
+      <div class="sup-name">Abhi Parashar</div>
+      <div class="sup-role">Director · Sales Professional · 75 reviews at 5.0 ★</div>
+      <div class="sup-note">$3.44M GCI · 83 properties sold as secondary agent · $845k median · 53 days DOM. Operates as a near-independent lead generator with a deep personal review profile across Moncrieff, Richardson and Bonner.</div>
+    </div>
+  </div>
+
+  <div class="sup">
+    <div class="av navy">GS</div>
+    <div>
+      <div class="sup-name">Gurjant Singh</div>
+      <div class="sup-role">Director Principal · 11 reviews at 5.0 ★ · 10 years experience</div>
+      <div class="sup-note">$1.89M GCI · 37 properties sold · $887k median · Agent of the Year Bonner 2021–2024 · Agent of the Year Throsby 2022. Founded the New Door Foundation — 11 years of community event and charitable society involvement across the Gungahlin corridor.</div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- MOVEMENT 1b: WHAT WE ADMIRE -->
+<div class="sec reveal">
+  <div class="sec-eye">Movement 1 · What we admire</div>
+  <div class="sec-title">What makes New Door different</div>
+
+  <div class="strengths-grid">
+
+    <div class="strength-card featured-blue">
+      <div class="strength-card-inner">
+        <span class="strength-icon">⚑</span>
+        <div class="strength-title">Community anchoring that no competitor can fast-track</div>
+        <div class="strength-body">The New Door Foundation is not a marketing exercise. Eleven years of organised community events, charitable society involvement and suburb-specific awards across Bonner, Throsby, Moncrieff and Taylor build the kind of pre-appraisal trust that no amount of digital advertising can manufacture. In a market where educated ACT buyers research thoroughly before making contact, this depth of community presence is a genuine upstream vendor acquisition engine.</div>
+        <div class="team-chips">
+          <span class="tw-chip">Agency of the Year <b>Throsby 2022</b></span>
+          <span class="tw-chip">Agency of the Year <b>Moncrieff 2021–2022</b></span>
+          <span class="tw-chip">Agency of the Year <b>Bonner 2022–2023</b></span>
+          <span class="tw-chip">New Door Foundation <b>· 11 years active</b></span>
+        </div>
+        <span class="strength-tag-grey">Community · Trust · Upstream acquisition</span>
+      </div>
+    </div>
+
+    <div class="strength-card">
+      <div class="strength-card-inner">
+        <span class="strength-icon">✦</span>
+        <div class="strength-title">Two self-generating agents, not one principal doing everything</div>
+        <div class="strength-body">Yash Sethi ($3.98M, 86 reviews, 2025 Top Agent) and Abhi Parashar ($3.44M, 75 reviews) each operate as near-independent lead agents with strong personal review profiles. Most boutique offices of this size are entirely principal-dependent. New Door has two agents who attract listings from their own reputation, which creates a compounding pipeline most ACT independents cannot match. Top-agent dependency at 42.8% is high but the second agent is close behind.</div>
+        <span class="strength-tag">Pipeline · Agent depth · Compounding growth</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- SERVICE AREA -->
+<div class="sec reveal">
+  <div class="sec-eye">Movement 2 · Service Area</div>
+  <div class="sec-title">Where New Door sells</div>
+
+  <div style="background:var(--card);border-radius:10px;border:1px solid var(--border);overflow:hidden;margin-bottom:10px;">
+    <div style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <div style="font-family:'Unbounded',sans-serif;font-size:7px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);">Top 10 suburbs · 145 total sales · 78 suburbs serviced</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);"><div style="width:10px;height:10px;border-radius:2px;background:var(--pink);flex-shrink:0;"></div>Gungahlin corridor</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);"><div style="width:10px;height:10px;border-radius:2px;background:var(--blue);flex-shrink:0;"></div>Inner north / new suburbs</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);"><div style="width:10px;height:10px;border-radius:2px;background:var(--cream);flex-shrink:0;border:1px solid #e0b870;"></div>Queanbeyan corridor</div>
+      </div>
+    </div>
+    <div style="padding:14px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:3px;height:36px;background:var(--pink);border-radius:2px;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <div style="font-size:14px;font-weight:600;color:var(--navy);">Taylor <span style="font-size:11px;font-weight:300;color:var(--muted);">ACT 2913</span></div>
+              <div style="font-size:13px;font-weight:600;color:var(--pink);">30 sales · 20.7%</div>
+            </div>
+            <div style="height:6px;background:#f0f2f8;border-radius:999px;overflow:hidden;"><div style="width:100%;height:100%;background:var(--pink);border-radius:999px;"></div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:3px;height:36px;background:var(--pink);border-radius:2px;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <div style="font-size:14px;font-weight:600;color:var(--navy);">Moncrieff <span style="font-size:11px;font-weight:300;color:var(--muted);">ACT 2914</span></div>
+              <div style="font-size:13px;font-weight:600;color:var(--pink);">19 sales · 13.1%</div>
+            </div>
+            <div style="height:6px;background:#f0f2f8;border-radius:999px;overflow:hidden;"><div style="width:63%;height:100%;background:var(--pink);border-radius:999px;"></div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:3px;height:36px;background:var(--cream);border:1px solid #e0b870;border-radius:2px;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <div style="font-size:14px;font-weight:600;color:var(--navy);">Googong <span style="font-size:11px;font-weight:300;color:var(--muted);">NSW 2620 · $990k median market</span></div>
+              <div style="font-size:13px;font-weight:600;color:#7a4a00;">15 sales · 10.3%</div>
+            </div>
+            <div style="height:6px;background:#f0f2f8;border-radius:999px;overflow:hidden;"><div style="width:50%;height:100%;background:var(--cream);border-radius:999px;"></div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:3px;height:36px;background:var(--pink);border-radius:2px;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <div style="font-size:14px;font-weight:600;color:var(--navy);">Bonner <span style="font-size:11px;font-weight:300;color:var(--muted);">ACT 2914 · Agency of the Year 2022–2023</span></div>
+              <div style="font-size:13px;font-weight:600;color:var(--pink);">12 sales · 8.3%</div>
+            </div>
+            <div style="height:6px;background:#f0f2f8;border-radius:999px;overflow:hidden;"><div style="width:40%;height:100%;background:var(--pink);border-radius:999px;"></div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:3px;height:36px;background:var(--blue);border-radius:2px;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <div style="font-size:14px;font-weight:600;color:var(--navy);">Whitlam <span style="font-size:11px;font-weight:300;color:var(--muted);">ACT 2611</span></div>
+              <div style="font-size:13px;font-weight:600;color:var(--blue);">8 sales · 5.5%</div>
+            </div>
+            <div style="height:6px;background:#f0f2f8;border-radius:999px;overflow:hidden;"><div style="width:27%;height:100%;background:var(--blue);border-radius:999px;"></div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:3px;height:36px;background:var(--blue);border-radius:2px;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <div style="font-size:14px;font-weight:600;color:var(--navy);">Denman Prospect <span style="font-size:11px;font-weight:300;color:var(--muted);">ACT 2611 · $990k+ median market</span></div>
+              <div style="font-size:13px;font-weight:600;color:var(--blue);">7 sales · 4.8%</div>
+            </div>
+            <div style="height:6px;background:#f0f2f8;border-radius:999px;overflow:hidden;"><div style="width:23%;height:100%;background:var(--blue);border-radius:999px;"></div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:3px;height:36px;background:var(--pink);border-radius:2px;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <div style="font-size:14px;font-weight:600;color:var(--navy);">Throsby <span style="font-size:11px;font-weight:300;color:var(--muted);">ACT 2914 · Agency of the Year 2022</span></div>
+              <div style="font-size:13px;font-weight:600;color:var(--pink);">6 sales · 4.1%</div>
+            </div>
+            <div style="height:6px;background:#f0f2f8;border-radius:999px;overflow:hidden;"><div style="width:20%;height:100%;background:var(--pink);border-radius:999px;"></div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:3px;height:36px;background:var(--pink);border-radius:2px;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <div style="font-size:14px;font-weight:600;color:var(--navy);">Casey <span style="font-size:11px;font-weight:300;color:var(--muted);">ACT 2913</span></div>
+              <div style="font-size:13px;font-weight:600;color:var(--pink);">6 sales · 4.1%</div>
+            </div>
+            <div style="height:6px;background:#f0f2f8;border-radius:999px;overflow:hidden;"><div style="width:20%;height:100%;background:var(--pink);border-radius:999px;"></div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:3px;height:36px;background:var(--blue);border-radius:2px;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <div style="font-size:14px;font-weight:600;color:var(--navy);">Macnamara <span style="font-size:11px;font-weight:300;color:var(--muted);">ACT 2615</span></div>
+              <div style="font-size:13px;font-weight:600;color:var(--blue);">6 sales · 4.1%</div>
+            </div>
+            <div style="height:6px;background:#f0f2f8;border-radius:999px;overflow:hidden;"><div style="width:20%;height:100%;background:var(--blue);border-radius:999px;"></div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:3px;height:36px;background:var(--pink);border-radius:2px;flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <div style="font-size:14px;font-weight:600;color:var(--navy);">Gungahlin <span style="font-size:11px;font-weight:300;color:var(--muted);">ACT 2912 · Home base</span></div>
+              <div style="font-size:13px;font-weight:600;color:var(--pink);">5 sales · 3.4%</div>
+            </div>
+            <div style="height:6px;background:#f0f2f8;border-radius:999px;overflow:hidden;"><div style="width:17%;height:100%;background:var(--pink);border-radius:999px;"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div style="background:#f7f9fc;border-top:1px solid var(--border);padding:10px 14px;display:flex;flex-wrap:wrap;gap:16px;">
+      <div style="font-size:12px;color:var(--muted);font-weight:300;line-height:1.6;flex:1;min-width:220px;"><strong style="color:var(--navy);">Gungahlin corridor dominates.</strong> Taylor, Moncrieff, Bonner, Throsby, Casey and Gungahlin itself account for 78 sales — 54% of all transactions. This is New Door's heartland and where the community foundation awards have built the deepest pre-appraisal trust.</div>
+      <div style="font-size:12px;color:var(--muted);font-weight:300;line-height:1.6;flex:1;min-width:220px;"><strong style="color:var(--navy);">Two growth corridors are emerging.</strong> Googong (NSW), Whitlam, Denman Prospect and Macnamara account for 36 sales combined. These are newer, higher-median suburbs where New Door is active but not yet dominant — and where the median price uplift opportunity sits.</div>
+    </div>
+  </div>
+</div>
+<div class="sec reveal">
+  <div class="sec-eye">Movement 2 · Context</div>
+  <div class="sec-title">Your market at a glance</div>
+
+  <div class="gg">
+    <div class="gc bl">
+      <div class="gc-l">Agent efficiency</div>
+      <div class="gc-v">$3.10M</div>
+      <div class="gc-s">Avg GCI per active sales agent · 3 agents</div>
+      <span class="delta dp">2.6x ACT ind. avg of $1.21M</span>
+    </div>
+    <div class="gc soft">
+      <div class="gc-l">Concentration risk</div>
+      <div class="gc-v">80%</div>
+      <div class="gc-s">Of total GCI held by Yash and Abhi combined</div>
+      <span class="delta dp">Top agent dep. 43%</span>
+    </div>
+    <div class="gc acc">
+      <div class="gc-l">Agency review score</div>
+      <div class="gc-v">5.0 ★</div>
+      <div class="gc-s">182 verified reviews · Most reviewed independent in Gungahlin</div>
+    </div>
+    <div class="gc">
+      <div class="gc-l">Scaling gap</div>
+      <div class="gc-v">+3 agents</div>
+      <div class="gc-s">Would put New Door at $14–16M and level with every ACT independent except Ray White</div>
+      <span class="delta da">#4 → #2 potential</span>
+    </div>
+  </div>
+
+  <div class="tw">
+    <div class="scroll-hint">Swipe to see all columns</div>
+    <div class="ts">
+      <table>
+        <thead>
+          <tr><th>Agent</th><th>Office</th><th>Type</th><th>GCI</th><th>Sales</th><th>Median</th><th>DOM</th><th>GCI/sale</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Roger Wardy</td><td>Ray White Touma Taylor</td><td><span class="tb tf">Franchise</span></td><td>$10,160,861</td><td>87</td><td>$2,383,500</td><td>17</td><td>$116,792</td></tr>
+          <tr><td>Brett Hayman</td><td>Hayman Partners</td><td><span class="tb ti">Independent</span></td><td>$7,634,200</td><td>164</td><td>$950,000</td><td>47</td><td>$46,550</td></tr>
+          <tr><td>Gavin van Zyl</td><td>White Rhino Property</td><td><span class="tb ti">Independent</span></td><td>$7,779,240</td><td>147</td><td>$1,080,000</td><td>54</td><td>$52,920</td></tr>
+          <tr class="yr"><td><strong>Yash Sethi</strong><span class="yb">New Door</span></td><td>New Door Properties Gungahlin</td><td><span class="tb ti">Independent</span></td><td>$3,980,025</td><td>95</td><td>$855,000</td><td>56</td><td>$41,895</td></tr>
+          <tr><td>Jesse Sands</td><td>The Property Collective</td><td><span class="tb ti">Independent</span></td><td>$3,314,360</td><td>76</td><td>$890,000</td><td>23</td><td>$43,610</td></tr>
+          <tr class="yr"><td><strong>Abhi Parashar</strong><span class="yb">New Door</span></td><td>New Door Properties Gungahlin</td><td><span class="tb ti">Independent</span></td><td>$3,436,615</td><td>83</td><td>$845,000</td><td>53</td><td>$41,405</td></tr>
+          <tr><td>Jonny Warren</td><td>Jonny Warren Properties</td><td><span class="tb ti">Independent</span></td><td>$2,488,808</td><td>56</td><td>$907,000</td><td>12</td><td>$44,443</td></tr>
+          <tr><td>Shan Gao</td><td>Carter and Co</td><td><span class="tb ti">Independent</span></td><td>$2,415,945</td><td>57</td><td>$865,000</td><td>36</td><td>$42,385</td></tr>
+          <tr class="yr"><td><strong>Gurjant Singh</strong><span class="yb">New Door</span></td><td>New Door Properties Gungahlin</td><td><span class="tb ti">Independent</span></td><td>$1,891,033</td><td>43</td><td>$897,500</td><td>57</td><td>$43,978</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="font-family:'Unbounded',sans-serif;font-size:7px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);padding:0 0 8px 2px;margin-top:4px;">Gungahlin ACT · Independent offices</div>
+  <div class="tw">
+    <div class="scroll-hint">Swipe to see all columns</div>
+    <div class="ts">
+      <table>
+        <thead>
+          <tr><th>Independent office</th><th>Agents</th><th>Total GCI</th><th>Avg GCI</th><th>Median</th><th>DOM</th><th>Top agent dependency</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>The Property Collective</td><td>9</td><td>$13,623,712</td><td>$1.51M</td><td>$790,000</td><td>33</td><td>Jesse Sands · 24%</td></tr>
+          <tr><td>Hayman Partners</td><td>3</td><td>$11,488,418</td><td>$3.83M</td><td>$950,000</td><td>40</td><td>Brett Hayman · 66%</td></tr>
+          <tr class="yr"><td><strong>New Door Properties Gungahlin</strong><span class="yb">You</span></td><td>3 sales</td><td>$9,307,673</td><td>$3.10M</td><td>$855,000</td><td>55</td><td>Yash Sethi · 43%</td></tr>
+          <tr><td>Carter and Co</td><td>7</td><td>$7,173,110</td><td>$1.02M</td><td>$750,000</td><td>42</td><td>Shan Gao · 34%</td></tr>
+          <tr><td>Jonny Warren Properties</td><td>3</td><td>$4,273,861</td><td>$1.42M</td><td>$850,150</td><td>30</td><td>Jonny Warren · 58%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="font-family:'Unbounded',sans-serif;font-size:7px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);padding:16px 0 8px 2px;">Googong corridor · Key competitors <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:300;color:var(--muted);text-transform:none;letter-spacing:0;margin-left:6px;">New Door's #2 suburb by sales volume — $990k median house market</span></div>
+  <div class="tw">
+    <div class="scroll-hint">Swipe to see all columns</div>
+    <div class="ts">
+      <table>
+        <thead>
+          <tr><th>Office</th><th>Type</th><th>Agents</th><th>Total GCI</th><th>Avg GCI</th><th>Median</th><th>DOM</th><th>Top agent</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Belle Property Queanbeyan</td><td><span class="tb tf">Franchise</span></td><td>8</td><td>$17,346,000</td><td>$2.17M</td><td>$1,230,000</td><td>57</td><td>Aaron Papahatzis · 26%</td></tr>
+          <tr><td>White Rhino Property Queanbeyan/Googong</td><td><span class="tb ti">Independent</span></td><td>5</td><td>$15,548,190</td><td>$3.11M</td><td>$960,000</td><td>278</td><td>Gavin van Zyl · 50%</td></tr>
+          <tr><td>Ian McNamee &amp; Partners Queanbeyan</td><td><span class="tb ti">Independent</span></td><td>5</td><td>$4,479,507</td><td>$0.90M</td><td>$664,500</td><td>49</td><td>Michael Edwards · 58%</td></tr>
+          <tr><td>LJ Hooker Queanbeyan/Googong NSW</td><td><span class="tb tf">Franchise</span></td><td>5</td><td>$2,910,356</td><td>$0.58M</td><td>$803,750</td><td>61</td><td>Jon Stumbles · 33%</td></tr>
+          <tr class="yr"><td><strong>New Door Properties Gungahlin</strong><span class="yb">You · Googong</span></td><td><span class="tb ti">Independent</span></td><td>3 sales</td><td>$9,307,673</td><td>$3.10M</td><td>$855,000</td><td>55</td><td>Yash Sethi · 43%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div style="font-size:11px;color:var(--muted);font-weight:300;padding:6px 2px 0;font-style:italic;line-height:1.5;">Note: White Rhino operates from Queanbeyan NSW, not Gungahlin ACT. They are a direct competitor in the Googong corridor specifically. Belle Property Queanbeyan is the dominant franchise in this corridor with a $1.23M median — significantly above New Door's current office median of $855k.</div>
+
+  <div class="vs">
+    <div class="vc">
+      <div class="vh"><div class="vh-t pk">Independent offices — ACT</div></div>
+      <div class="vr"><span class="vm">Total agents</span><span class="vv">155</span></div>
+      <div class="vr"><span class="vm">GCI share</span><span class="vv">55.2%</span></div>
+      <div class="vr"><span class="vm">Avg agent GCI</span><span class="vv">$1,207,045</span></div>
+      <div class="vr"><span class="vm">Avg DOM</span><span class="vv">68 days</span></div>
+      <div class="vr"><span class="vm">Avg median price</span><span class="vv">$849,304</span></div>
+      <div class="vr"><span class="vm">Avg GCI per sale</span><span class="vv">$41,616</span></div>
+    </div>
+    <div class="vc">
+      <div class="vh"><div class="vh-t bl">Franchise / network — ACT</div></div>
+      <div class="vr"><span class="vm">Total agents</span><span class="vv">128</span></div>
+      <div class="vr"><span class="vm">GCI share</span><span class="vv">44.8%</span></div>
+      <div class="vr"><span class="vm">Avg agent GCI</span><span class="vv">$1,188,649</span></div>
+      <div class="vr"><span class="vm">Avg DOM</span><span class="vv">53 days</span></div>
+      <div class="vr"><span class="vm">Avg median price</span><span class="vv">$1,031,623</span></div>
+      <div class="vr"><span class="vm">Avg GCI per sale</span><span class="vv">$50,550</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- MOVEMENT 3: THE GAP -->
+<div class="sec reveal">
+  <div class="sec-eye">Movement 3 · The Gap</div>
+  <div class="sec-title">What the data is telling us</div>
+
+  <div class="ic">
+    <div class="ic-head"><span class="ic-badge">Antimony Insight</span><span class="ic-sub">What we see that others miss</span></div>
+    <div class="ic-intro">New Door is outperforming on results and underperforming on infrastructure. $9.3M from three agents, 182 reviews at 5.0, 80% of GCI concentrated in two people. These are the numbers of an office at a specific inflection point: strong enough to scale, fragile enough that it has to. The brand and digital infrastructure are the missing piece on both sides of that equation.</div>
+    <div class="ic-pillars">
+      <div class="pl ua">
+        <div class="pl-lbl" onclick="showTooltip('ua')"><span>⚡</span>Unfair Advantage<span class="info-dot">?</span></div>
+        <div class="pl-txt">The New Door Foundation and Gurjant's 11 years of community involvement have built pre-appraisal trust in Bonner, Throsby, Moncrieff and Taylor that no competitor can fast-track. This is a vendor acquisition engine most agencies would need a decade to replicate, and almost none of it is visible in New Door's current marketing. In a market where educated ACT buyers research thoroughly before making contact, community depth like this changes the shortlisting conversation before it starts.</div>
+      </div>
+      <div class="pl sb">
+        <div class="pl-lbl" onclick="showTooltip('sb')"><span>✦</span>Silver Bullet<span class="info-dot">?</span></div>
+        <div class="pl-txt">Yash and Abhi are producing at 2.6x the ACT independent average with no dedicated brand infrastructure behind them. That same infrastructure — proper agent profile systems, listing campaign assets, a consistent content calendar — is also what attracts the next generation of high-performing agents to New Door. In the ACT's independent-dominant market, agents choose offices based on brand authority and the tools available to them. Building the ecosystem that makes Yash and Abhi more visible to vendors simultaneously makes New Door more attractive to the agents who would reduce that 80% GCI concentration and push the office toward $14–16M.</div>
+      </div>
+      <div class="pl lf">
+        <div class="pl-lbl" onclick="showTooltip('lf')"><span>🎯</span>Low-Hanging Fruit<span class="info-dot">?</span></div>
+        <div class="pl-txt">At 56 days median DOM versus the ACT franchise average of 53, the gap is narrow but visible to vendors doing comparison research. A clear narrative that reframes New Door's community-driven, high-touch approach as the deliberate reason vendors choose them converts a potential comparison weakness into a positive selection signal. The story already exists in the data. It is not currently being told.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- MOVEMENT 4: THE RECOMMENDATION -->
+<div class="sec reveal">
+  <div class="sec-eye">Movement 4 · The Recommendation</div>
+  <div class="sec-title">What we would do for New Door</div>
+
+  <div class="rec">
+    <div class="rec-head">
+      <span class="rec-badge">Our approach</span>
+      <span class="rec-head-title">Three priorities · One direction</span>
+    </div>
+    <div class="rec-intro">Based on what the data shows, we would focus on three things. Not simultaneously, in sequence, each one building on the last. The detail lives in the conversation, but the direction is clear.</div>
+    <div class="rec-items">
+      <div class="ri">
+        <div class="ri-top">
+          <div class="ri-num">1</div>
+          <div class="ri-title">Build a brand that matches the production</div>
+        </div>
+        <div class="ri-body">New Door's agency review profile (182 reviews, 5.0) and team GCI put it squarely in the top tier of independent offices in Canberra. The website, social presence and listing campaign aesthetics have not kept pace. A brand system that visually communicates the authority this office has earned would immediately change how vendors perceive New Door at the research stage, before they contact anyone.</div>
+        <span class="ri-tag brand">Elevate Your Brand</span>
+      </div>
+      <div class="ri">
+        <div class="ri-top">
+          <div class="ri-num">2</div>
+          <div class="ri-title">Build the infrastructure that attracts agents, not just vendors</div>
+        </div>
+        <div class="ri-body">80% of New Door's GCI sits in two people. The path to $14–16M is adding three agents at even half Yash and Abhi's productivity — but in the ACT's independent-dominant market, agents choose offices based on brand authority and the tools available to them. The same personal brand infrastructure that makes Yash and Abhi more visible to vendors — dedicated profile pages, consistent listing campaigns, a content calendar — is exactly what makes New Door more attractive to the next high-performer looking for a home. One build. Two compounding returns.</div>
+        <span class="ri-tag dom">Scale the team</span>
+      </div>
+      <div class="ri">
+        <div class="ri-top">
+          <div class="ri-num">3</div>
+          <div class="ri-title">Push median price up through the Googong corridor</div>
+        </div>
+        <div class="ri-body">New Door's Googong presence (15 properties, second highest suburb by volume) sits in a $990k median house market but the office median is currently $855k. A deliberate campaign targeting the $950k–$1.1M segment across Googong, Denman Prospect and Whitlam would lift median price without geographic expansion. The gap between current performance and prestige positioning is smaller than it appears.</div>
+        <span class="ri-tag price">Increase Median Price</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- MOVEMENT 5: THE ASK -->
+<div class="sec reveal">
+  <div class="opp">
+    <div class="opp-stripe"></div>
+    <div class="opp-in">
+      <div class="opp-eye">Movement 5 · The Ask</div>
+      <div class="opp-h">$9.3M from three agents. The next step is $14M from six.</div>
+      <div class="opp-b">New Door has the most-reviewed agency profile of any independent in Gungahlin, a 2025 REA Top Agent in Yash Sethi, and community infrastructure that took eleven years to build. It also has 80% of its GCI sitting in two people and a brand presence that does not yet reflect what the office has become. Three additional agents at half Yash and Abhi's productivity closes the gap to every ACT independent except Ray White. The brand infrastructure that gets there is the same infrastructure that attracts those agents in the first place. We have a specific point of view on what that build looks like. Thirty minutes with Carl. No deck. Just a direct conversation about what is next.</div>
+      <a href="https://calendar.app.google/Rnpfj7MjNFCfzB1a8" class="ctab">Book 30 minutes with Carl</a>
+      <a href="https://pitchdeck.hypermatic.com/slides/mn44gms53tpu9/?token=Ql5wQFBaMEl3QTN4MSU%3D&b=E87C9A&f=3C64B1&c=E87C9A&p=33&t=p&slide=25" class="ctag">View our work</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">
+        <svg width="514" height="118" viewBox="0 0 514 118" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M512.785 30.0918C513.159 30.0918 513.533 30.0918 514 30.0918C513.159 32.1477 512.411 34.1102 511.57 36.0727C503.346 56.0714 495.216 76.1635 486.899 96.1622C484.095 102.891 479.796 108.778 473.629 112.984C469.423 115.881 464.751 117.376 459.704 117.75C456.153 117.936 452.695 117.843 449.238 117.002C449.144 117.002 448.957 116.908 448.771 116.815C448.771 111.582 448.771 106.348 448.771 100.928C449.518 101.022 450.266 101.209 451.013 101.302C454.658 101.676 458.303 101.582 461.76 100.368C465.779 98.8723 467.835 95.6015 469.33 91.77C469.517 91.3962 469.236 90.8354 469.05 90.3682C462.695 75.4159 456.434 60.4636 450.079 45.4179C448.116 40.7453 446.154 36.0727 444.191 31.4001C444.004 31.0263 443.911 30.6525 443.724 30.1852C444.191 30.1852 444.472 30.0918 444.846 30.0918C450.733 30.0918 456.62 30.0918 462.508 30.0918C463.442 30.0918 463.723 30.4656 464.003 31.2132C469.05 43.9226 474.189 56.6321 479.329 69.2481C479.423 69.5284 479.516 69.7153 479.703 70.1826C479.89 69.6219 480.077 69.2481 480.264 68.8743C484.936 56.3517 489.515 43.7357 494.188 31.2132C494.468 30.3721 494.842 30.0918 495.777 30.0918C501.384 30.0918 507.084 30.0918 512.785 30.0918Z" fill="#3C64B1"/><path d="M445.033 54.2958C445.033 66.8183 445.033 79.2474 445.033 91.77C445.033 91.9569 445.033 92.1438 445.033 92.5176C438.771 92.5176 432.603 92.5176 426.249 92.5176C426.249 92.0503 426.155 91.5831 426.155 91.0223C426.155 79.995 426.249 68.8743 426.062 57.847C426.062 55.5107 425.688 52.9875 424.94 50.7446C423.352 46.1655 419.52 44.0161 414.661 44.0161C408.867 44.0161 405.222 48.128 404.381 52.9875C404.007 55.1369 403.727 57.3797 403.727 59.6225C403.633 70.0891 403.727 80.6492 403.727 91.1158C403.727 91.5831 403.727 91.9569 403.727 92.5176C403.26 92.5176 402.886 92.611 402.512 92.611C397.092 92.611 391.578 92.611 386.158 92.611C385.223 92.611 384.85 92.4241 384.85 91.3961C384.85 71.3975 384.85 51.4923 384.85 31.4936C384.85 30.4656 385.223 30.0918 386.251 30.1852C391.672 30.1852 397.092 30.1852 402.512 30.1852C403.54 30.1852 403.82 30.5591 403.727 31.4936C403.633 34.1102 403.54 36.8203 403.54 39.437C403.54 39.8108 403.54 40.1846 403.54 40.5584C403.633 40.5584 403.727 40.5584 403.82 40.6518C404.194 39.9042 404.474 39.1566 404.942 38.5025C408.493 32.4281 413.913 29.3442 420.829 29.0638C431.015 28.5031 439.519 34.1102 443.164 43.6423C444.565 46.9131 445.033 50.5577 445.033 54.2958Z" fill="#3C64B1"/><path d="M378.775 58.8758C379.243 65.5109 377.934 71.6787 374.757 77.4727C372.421 81.5846 369.337 85.1358 365.412 87.8459C360.552 91.3036 355.225 93.3595 349.431 94.1071C347.936 94.294 346.441 94.294 344.572 94.3875C334.573 94.2006 325.695 90.7429 318.686 82.8929C314.387 78.0334 311.677 72.3329 310.929 65.8847C309.714 55.9788 312.051 47.0074 318.966 39.4379C323.919 33.9242 330.087 30.373 337.376 28.9712C342.983 27.8498 348.684 27.8498 354.197 29.345C362.421 31.5879 369.056 36.2605 373.729 43.4563C376.719 48.1289 378.401 53.2687 378.775 58.8758ZM357.655 70.7442C360.552 64.5764 360.646 58.3151 357.655 52.1473C356.534 49.811 354.852 47.7551 352.515 46.3533C349.058 44.2973 345.32 43.8301 341.395 44.5777C339.058 45.045 336.909 46.0729 335.133 47.7551C331.395 51.3997 329.807 55.8853 329.713 61.5859C329.807 62.2401 329.807 63.455 329.993 64.6698C330.928 71.2115 335.414 77.5662 343.077 78.3138C348.964 79.0614 355.132 76.0709 357.655 70.7442Z" fill="#3C64B1"/><path d="M305.322 54.4825C305.416 66.8181 305.322 79.2472 305.322 91.5828C305.322 91.8632 305.322 92.1435 305.322 92.4239C299.061 92.4239 292.893 92.4239 286.538 92.4239C286.538 91.9566 286.538 91.4894 286.538 91.0221C286.538 79.9013 286.538 68.7806 286.538 57.5664C286.538 54.8563 286.258 52.1462 285.137 49.623C283.361 45.698 280.371 43.829 276.165 43.829C271.96 43.829 268.783 45.698 266.914 49.4361C265.605 52.1462 265.231 55.0432 265.231 58.0336C265.231 68.9675 265.231 79.8079 265.231 90.7418C265.231 91.209 265.231 91.6763 265.231 92.237C258.97 92.237 252.709 92.237 246.354 92.237C246.354 91.7697 246.354 91.3024 246.354 90.9286C246.354 79.621 246.354 68.2199 246.354 56.9122C246.354 53.7348 245.887 50.7444 244.018 48.0343C241.775 44.7635 238.598 43.7355 234.953 43.829C228.598 43.9224 225.141 48.5016 224.393 54.389C224.206 55.7908 224.113 57.1926 224.113 58.5944C224.113 69.3413 224.113 80.0883 224.113 90.8352C224.113 91.3025 224.113 91.7697 224.113 92.4239C217.758 92.4239 211.59 92.4239 205.329 92.4239C205.329 71.6776 205.329 50.9313 205.329 30.0916C211.497 30.0916 217.758 30.0916 224.019 30.0916C224.019 33.6427 224.019 37.1939 224.019 40.8385C227.851 32.5213 234.299 28.4094 243.457 28.8767C252.429 29.3439 258.783 33.9231 262.708 41.773C263.83 39.8105 264.671 37.9415 265.886 36.1659C268.783 32.1475 272.894 29.9981 277.754 29.157C282.146 28.4094 286.445 28.6898 290.65 30.185C295.043 31.7737 298.5 34.6707 301.023 38.5956C304.294 43.5486 305.322 48.8753 305.322 54.4825Z" fill="#3C64B1"/><path d="M188.227 0C195.142 0 199.815 5.32675 199.628 11.6815C199.722 18.0362 194.956 23.0826 188.134 22.9891C181.498 22.8957 176.732 18.1296 176.732 11.588C176.732 5.04639 181.592 0 188.227 0Z" fill="#3C64B1"/><path d="M197.572 30.0918C197.572 50.8381 197.572 71.5844 197.572 92.4241C191.311 92.4241 185.05 92.4241 178.788 92.4241C178.788 71.5844 178.788 50.8381 178.788 30.0918C185.05 30.0918 191.311 30.0918 197.572 30.0918Z" fill="#3C64B1"/><path d="M173.181 29.9975C173.181 34.9504 173.181 39.8099 173.181 44.7629C168.883 44.7629 164.584 44.7629 160.192 44.7629C160.192 45.1367 160.098 45.3236 160.098 45.6039C160.098 53.4539 160.098 61.3038 160.192 69.0603C160.192 73.6395 163.089 76.5365 167.761 76.6299C169.35 76.6299 170.939 76.5365 172.808 76.443C172.808 81.4894 172.808 86.4423 172.808 91.3953C172.808 91.6756 172.434 92.1429 172.153 92.1429C166.546 93.0774 160.939 93.6382 155.426 91.6757C149.258 89.5263 145.052 85.4144 142.903 79.1531C141.782 75.7889 141.501 72.3312 141.501 68.78C141.501 61.2104 141.501 53.6408 141.501 46.1646C141.501 45.6974 141.501 45.3236 141.501 44.6694C138.044 44.6694 134.586 44.6694 131.128 44.6694C131.128 39.623 131.128 34.857 131.128 29.904C134.586 29.904 137.95 29.904 141.501 29.904C141.501 24.9511 141.501 20.0916 141.501 15.1387C147.763 15.1387 153.93 15.1387 160.098 15.1387C160.098 19.9982 160.098 24.8576 160.098 29.8106C164.49 29.9975 168.789 29.9975 173.181 29.9975Z" fill="#3C64B1"/><path d="M128.418 54.295C128.511 66.7241 128.418 79.1532 128.418 91.6757C128.418 91.9561 128.418 92.143 128.324 92.5168C122.157 92.5168 115.895 92.5168 109.634 92.5168C109.634 91.9561 109.541 91.4888 109.541 90.9281C109.541 79.9008 109.541 68.967 109.541 58.0331C109.541 55.6034 109.447 53.0801 108.513 50.7438C106.644 46.2582 103.092 44.1088 98.233 44.1088C92.439 44.1088 88.8878 48.0338 87.9533 52.8933C87.486 55.0426 87.2991 57.192 87.2991 59.4349C87.2057 70.0884 87.2991 80.6484 87.2991 91.3019C87.2991 91.7692 87.2991 92.143 87.2991 92.6103C86.8319 92.6103 86.5515 92.7037 86.2712 92.7037C80.7575 92.7037 75.2439 92.7037 69.6368 92.7037C68.7022 92.7037 68.4219 92.4233 68.4219 91.4888C68.4219 71.4901 68.4219 51.4915 68.4219 31.4928C68.4219 30.4648 68.7957 30.1845 69.7302 30.1845C75.1504 30.1845 80.5706 30.1845 85.9908 30.1845C87.1122 30.1845 87.2991 30.5583 87.2991 31.5862C87.2057 34.2029 87.1122 36.8196 87.1122 39.4362C87.1122 39.81 87.1122 40.1838 87.1122 40.5576C87.2057 40.5576 87.2991 40.5576 87.3926 40.5576C87.7664 39.81 88.1402 39.0624 88.514 38.3148C92.9062 31.0255 100.195 27.8482 109.167 29.1565C118.886 30.6517 125.895 37.4737 127.764 47.1927C128.138 49.529 128.324 51.9587 128.418 54.295Z" fill="#3C64B1"/><path d="M65.338 77.9381C65.2446 79.0595 65.1511 80.181 65.0577 81.2089C64.8708 84.1994 64.7773 87.1898 64.4969 90.1803C64.4969 90.5541 64.1231 91.2083 63.8428 91.3017C60.6654 92.3297 57.3946 93.2642 53.9369 92.8904C49.0774 92.4231 45.6197 89.9 43.6572 85.5077C42.9096 83.919 42.4423 82.2369 41.7882 80.4613C41.5078 80.9286 41.3209 81.1155 41.134 81.3959C38.8912 86.6292 34.8727 89.9 29.6394 91.6755C22.9109 94.0118 16.0889 94.0118 9.45385 91.3017C1.51045 88.0309 -0.919296 80.7417 0.295577 73.5459C1.23009 68.0323 4.59436 64.2007 9.26695 61.3972C13.0985 59.0609 17.3973 57.6591 21.7895 57.0984C26.7424 56.5377 31.6954 56.1639 36.6483 55.6966C37.209 55.6032 37.8632 55.6032 38.4239 55.5097C38.7043 55.4162 39.0781 55.1359 39.0781 54.8556C39.1715 52.052 38.7977 49.3419 37.209 46.9122C34.9662 43.4544 29.4525 42.6134 25.9948 44.0151C22.5371 45.4169 20.855 48.0336 20.4812 51.6782C20.3877 52.2389 20.3877 52.6127 19.6401 52.6127C13.9395 52.5192 8.14553 52.4258 2.44497 52.4258C2.35152 52.4258 2.25806 52.3323 2.07116 52.3323C1.88426 49.9961 2.44497 47.7532 3.19258 45.6038C5.62233 38.7818 10.3884 34.0158 16.8365 31.0254C22.1633 28.5956 27.7704 28.0349 33.6579 28.5021C39.1715 28.9694 44.3114 30.5581 48.7971 34.0158C54.778 38.6884 57.4881 45.0431 57.675 52.4258C57.8619 58.0329 57.675 63.7335 57.7684 69.3406C57.7684 70.9293 57.8619 72.6114 58.3291 74.2001C59.4506 78.2185 61.2261 78.4054 63.8428 77.9381C64.4035 77.9381 64.7773 77.9381 65.338 77.9381ZM36.368 77.0036C38.9846 73.6393 39.5453 69.8078 39.1715 65.6025C38.5174 65.6025 37.9566 65.5091 37.3959 65.6025C34.4989 65.8829 31.5085 66.1632 28.6115 66.537C25.7145 66.9108 23.0044 67.8453 20.855 69.9947C18.0514 72.8917 18.5187 78.3119 21.9764 80.2744C23.2847 81.022 24.8734 81.3024 26.3686 81.3959C30.4805 81.6762 33.7513 80.181 36.368 77.0036Z" fill="#3C64B1"/></svg>
+      </div>
+      <div class="footer-tagline">Creative and Growth Studio</div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-contact">
+      <div class="footer-title">Account Director</div>
+      <div class="footer-name">Carl Nave</div>
+      <div class="footer-links">
+        <a href="tel:+61403163523" class="footer-link"><span class="footer-link-icon">✆</span>0403 163 523</a>
+        <a href="mailto:carl@antimonystudio.com" class="footer-link"><span class="footer-link-icon">✉</span>carl@antimonystudio.com</a>
+        <a href="https://www.antimonystudio.com" class="footer-link"><span class="footer-link-icon">↗</span>antimonystudio.com</a>
+        <a href="https://calendar.app.google/Rnpfj7MjNFCfzB1a8" class="footer-link"><span class="footer-link-icon">◷</span>Book a call</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- TOOLTIP OVERLAY -->
+<div class="tooltip-overlay" id="tooltipOverlay" onclick="hideTooltip(event)">
+  <div class="tooltip-box" id="tooltipBox">
+    <button class="tooltip-close" onclick="hideTooltip()">&times;</button>
+    <div class="tooltip-label" id="tooltipLabel"></div>
+    <div class="tooltip-title" id="tooltipTitle"></div>
+    <div class="tooltip-body" id="tooltipBody"></div>
+  </div>
+</div>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.06});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+const tooltips={
+  ua:{
+    labelClass:'ua',
+    label:'Unfair Advantage',
+    title:'What you have that no one else can replicate',
+    body:'An Unfair Advantage is a capability, asset or position that is genuinely difficult or impossible for competitors to copy. For New Door, it is 11 years of community investment through the New Door Foundation, suburb-specific agency awards across four ACT growth corridors, and the kind of pre-appraisal trust that no amount of digital advertising can manufacture. Antimony looks for this first because it is the foundation everything else is built on.'
+  },
+  sb:{
+    labelClass:'sb',
+    label:'Silver Bullet',
+    title:'The one thing that could change everything',
+    body:'A Silver Bullet is the single highest-leverage action available right now. For New Door, it is building the agent brand infrastructure that works in two directions simultaneously: making Yash and Abhi more visible to vendors, and making New Door more attractive to the next generation of high-performing agents. 80% of GCI sitting in two people is a structural risk. The Property Collective solved the same problem by building to 9 agents with no single agent above 24% dependency. The path there starts with infrastructure, not recruitment.'
+  },
+  lf:{
+    labelClass:'lf',
+    label:'Low-Hanging Fruit',
+    title:'What can change quickly, without new infrastructure',
+    body:'Low-Hanging Fruit is the fast win: a meaningful improvement that requires no new budget, no long build, no structural change. For New Door, it is the DOM story. At 56 days versus the ACT franchise average of 53, the gap is narrow but visible. A clear narrative that reframes New Door\'s community-driven, high-touch approach as the deliberate reason vendors choose them converts a potential comparison weakness into a positive selection signal. The story already exists in the data.'
+  }
+};
+
+function showTooltip(type){
+  const t=tooltips[type];
+  document.getElementById('tooltipLabel').className='tooltip-label '+t.labelClass;
+  document.getElementById('tooltipLabel').textContent=t.label;
+  document.getElementById('tooltipTitle').textContent=t.title;
+  document.getElementById('tooltipBody').textContent=t.body;
+  document.getElementById('tooltipOverlay').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+function hideTooltip(e){
+  if(!e||e.target===document.getElementById('tooltipOverlay')||e.target.classList.contains('tooltip-close')){
+    document.getElementById('tooltipOverlay').classList.remove('active');
+    document.body.style.overflow='';
+  }
+}
+</script>
+</body>
+</html>
